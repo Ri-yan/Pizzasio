@@ -2,6 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import { CiPizza} from "react-icons/ci";
 import heropizza from "../assets/heropizza.png";
+import { Link } from "react-router-dom";
 const HeroSection = () => {
   return (
     <Welcome id="Home">
@@ -15,7 +16,7 @@ const HeroSection = () => {
               Hungry ?, <br /> Order your favorite pizza.{" "}
             </h1>
             <h3 className="mt-3 up text-muted">fastest delivery in town.</h3>
-            <a href="/menu">
+            <Link to='/menu'>
               <button
                 style={{ background: "#e95c4e", border: "none" }}
                 type="button"
@@ -24,7 +25,7 @@ const HeroSection = () => {
                 Order Now
                 <CiPizza className="ms-1 my-auto fs-4" />
               </button>
-            </a>
+            </Link>
           </Col>
 
           <Col className="px-2 cover-container d-flex flex-column justify-content-center align-items-center">

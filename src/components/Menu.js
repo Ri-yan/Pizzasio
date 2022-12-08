@@ -1,82 +1,191 @@
-import Card from 'react-bootstrap/Card';
-import styled from 'styled-components'
-import { pizzas } from '../data/pizzas';
-import { Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { pizzas } from "../data/pizzas";
+import { Container, Row, Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Menu = () => {
+  const [filter, setFilter] = useState("all");
   return (
     <Popular>
       <Container>
-        <h2 className='pb-3' style={{color:'red'}}>Our Menu</h2>
+        <h2 className="pb-3" style={{ color: "red" }}>
+          Our Menu
+        </h2>
+        <Row className="my-3 ms-0">
+          <Container>
+            <Button
+              disabled={filter === "all" ? true : false}
+              onClick={() => {
+                setFilter("all");
+              }}
+              className="me-2 filter"
+              style={{ borderRadius: "3em" }}
+            >
+              All
+            </Button>
+            <Button
+              disabled={filter === "veg" ? true : false}
+              onClick={() => {
+                setFilter("veg");
+              }}
+              className="me-2 filter"
+              style={{ borderRadius: "3em" }}
+            >
+              Veg
+            </Button>
+            <Button
+              disabled={filter === "non-veg" ? true : false}
+              onClick={() => {
+                setFilter("non-veg");
+              }}
+              className="me-2 filter"
+              style={{ borderRadius: "3em" }}
+            >
+              Non Veg
+            </Button>
+          </Container>
+        </Row>
         <div className="box">
-          {
-            pizzas.map((i)=>{
-              return <Link key={i.id} to={`/product/${i.id}`}> 
-              <Card  style={{ width: '16rem',cursor:'pointer' }}>
-              <Card.Img className='cover' variant="top" src={i.preview} />
-              <Card.Body>
-                <Card.Title className='m-0' style={{color:'red'}}>{i.name}</Card.Title>
-                <span className='type'>{i.type}</span>
-                <Card.Text className='text-muted' style={{fontSize:'small'}}>
-                  {i.description}
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer>{i.price}/-</Card.Footer>
-            </Card>
-            </Link>
-            })
-          }
-        </div>
-        </Container>
-    </Popular>
-  )
-}
+          {filter === "all"
+            ? pizzas.map((i) => {
+                return (
+                  <Link key={i.id} to={`/product/${i.id}`} state={{ data: i }}>
+                    <Card style={{ width: "16rem", cursor: "pointer" }} className='scard'>
+                      <Card.Img
+                        className="cover"
+                        variant="top"
+                        src={i.preview}
+                      />
+                      <Card.Body>
+                        <Card.Title className="m-0 ts" style={{ color: "red" }}>
+                          {i.name}
+                        </Card.Title>
+                        <span className="type">{i.type}</span>
+                        <Card.Text
+                          className="text-muted des"
+                          style={{ fontSize: "small" }}
+                        >
+                          {i.description}
+                        </Card.Text>
+                      </Card.Body>
+                      <Card.Footer>₹ {i.price}/-</Card.Footer>
+                    </Card>
+                  </Link>
+                );
+              })
+            : pizzas
+                .filter((pizzas) => {
+                  return pizzas.type === filter;
+                })
+                .map((i) => {
+                  return (
+                    <Link key={i.id} to={`/product/${i.id}`} state={{ data: i }}>
+                    <Card style={{ width: "16rem", cursor: "pointer" }} className='scard'>
+                      <Card.Img
+                        className="cover"
+                        variant="top"
+                        src={i.preview}
+                      />
+                      <Card.Body>
+                        <Card.Title className="m-0 ts" style={{ color: "red" }}>
+                          {i.name}
+                        </Card.Title>
+                        <span className="type">{i.type}</span>
+                        <Card.Text
+                          className="text-muted des"
+                          style={{ fontSize: "small" }}
+                        >
+                          {i.description}
+                        </Card.Text>
+                      </Card.Body>
+                      <Card.Footer>₹ {i.price}/-</Card.Footer>
+                    </Card>
+                  </Link>
 
-export default Menu
+                  );
+                })}
+        </div>
+      </Container>
+    </Popular>
+  );
+};
+
+export default Menu;
 
 const Popular = styled.div`
-padding: 4em 1em;
-padding-top: 2em;
-text-align: center;
-a{
-  text-decoration: none;
-  color: black;
-}
-.box{
-  display: flex;
-  gap: 0.5em;
-  justify-content: center;
-  flex-wrap: wrap;
-  height: 100vh;
-  overflow-y:scroll;
-}
+  padding: 4em 1em;
+  padding-top: 2em;
+  text-align: center;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .box {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100vh;
+    overflow-y: scroll;
+  }
 
-.cover{
-  height: 15em !important;
-  width: -webkit-fill-available !important;
-  padding: 1em;
-  cursor: pointer;
-}
-.cover:hover{
-  transition: 0.5s;
-  transform: scale(1.05);
-}
-.type{
-  font-size: small;
-  font-weight: 300;
-}
-.box::-webkit-scrollbar {
-  width: 5px;     
-  scroll-behavior: smooth;          /* width of the entire scrollbar */
-}
+  .cover {
+    height: 15em !important;
+    width: -webkit-fill-available !important;
+    padding: 1em;
+    cursor: pointer;
+  }
+  .cover:hover {
+    transition: 0.5s;
+    transform: scale(1.05);
+  }
+  .type {
+    font-size: small;
+    font-weight: 300;
+  }
+  .box::-webkit-scrollbar {
+    width: 5px;
+    scroll-behavior: smooth; /* width of the entire scrollbar */
+  }
 
-.box::-webkit-scrollbar-track {
-  background: rgba(106, 116, 110, 0.186);        /* color of the tracking area */
-}
+  .box::-webkit-scrollbar-track {
+    background: rgba(106, 116, 110, 0.186); /* color of the tracking area */
+  }
 
-.box::-webkit-scrollbar-thumb {
-  background-color: rgb(148, 232, 198);    /* color of the scroll thumb */
-  border-radius: 20px;      
-}
-`
+  .box::-webkit-scrollbar-thumb {
+    background-color: rgb(148, 232, 198); /* color of the scroll thumb */
+    border-radius: 20px;
+  }
+  .filter {
+    background: #e95c4e;
+    border: none;
+    font-size: small;
+  }
+  .card-footer{
+    background-color: white !important;
+    font-weight: 600;
+    background: white !important;
+
+  }
+  @media (max-width: 840px) {
+    .scard{
+      width: 9em !important;
+    }
+    .cover{
+      height: 9em !important;
+
+    }
+    .ts{
+      font-size: medium;
+    }
+    .card-body{
+      padding: 0.8em !important;
+    }
+    .des{
+      font-size: small;
+
+    }
+  }
+
+`;

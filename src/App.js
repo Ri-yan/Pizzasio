@@ -19,13 +19,14 @@ import Materials from './Admin/Materials';
 import ForgotPassword from './components/Authentication/ForgotPassword';
 import AdminForgotPassword from './Admin/AdminForgotPassword';
 import Orders from './components/Orders';
+import { AppProvider } from './context/context';
 
 
 function App() {
   return (
     <BrowserRouter>
     <div className="App">
-    
+    <AppProvider>
      <Routes>
       <Route path="/" element={<> <NavBar/><HeroSection/><Services/><Populars/></>}></Route>
       <Route path="/menu" element={<> <NavBar/><Menu/></>}></Route>
@@ -42,6 +43,7 @@ function App() {
       <Route path="/admin/materials" element={<><AdminNav/><Materials/></>}></Route>
       <Route path="/admin/forgot_password" element={<><AdminNav/><AdminForgotPassword/></>}></Route>
      </Routes>
+     </AppProvider>
      <Footer/>
     </div>
     </BrowserRouter>
